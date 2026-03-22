@@ -1,0 +1,3 @@
+# Transactions Dashboard v1
+ID | User | Amount | Risk | Status
+001 | user123 | 500 | HIGH | Blocked
