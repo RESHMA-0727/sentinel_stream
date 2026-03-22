@@ -1,0 +1,3 @@
+# Rules Manager v1
+Rule | Condition | Threshold | Action
+High Value | amount > 1000 | 1 tx/hour | Block
