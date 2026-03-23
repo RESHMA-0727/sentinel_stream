@@ -6,7 +6,7 @@ from collections import defaultdict
 class Sentinel:
     def __init__(self):
         self.rules = {
-            "high_value": {"threshold": 1000, "action": "BLOCK"},
+            "high_value": {"threshold": 3000, "action": "BLOCK"},
             "velocity": {"threshold": 3, "window": 3600, "action": "FLAG"}
         }
         self.user_history = defaultdict(list)
