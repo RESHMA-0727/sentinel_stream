@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from pydantic import BaseModel
 import uuid
 from datetime import datetime
@@ -16,6 +16,10 @@ class Transaction(BaseModel):
 async def root():
     return {"status": "SentinelStream Week2 LIVE ✅"}
 
+@app.get("/user/{user_id}")
+async def get_profile(user_id: str):
+    return {"user_id": user_id, "country": "India", "avg_txn": 2500, "risk": 25}
+
 @app.post("/transaction")
 async def analyze(txn: Transaction):
     risk_score = 90 if txn.amount > 5000 else 35
@@ -24,5 +28,6 @@ async def analyze(txn: Transaction):
         "txn_id": str(uuid.uuid4()),
         "risk_score": risk_score,
         "status": status,
-        "reason": f"High value txn: ₹{txn.amount}"
+        "reason": f"Amount ₹{txn.amount}",
+        "user_risk": 25
     }
