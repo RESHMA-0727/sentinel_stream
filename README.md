@@ -65,3 +65,11 @@ Load test 100req/sec
 
 
 
+
+## Week2 API 📊
+| Endpoint | Score | Status |
+|----------|-------|--------|
+| POST /transaction ₹7500 | 90 | BLOCKED ✅ |
+| GET /user/user123 | Profile | CACHED ✅ |
+| Locust | 26rps | 0% fail ✅ |
+
