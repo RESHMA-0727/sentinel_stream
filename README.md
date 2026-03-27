@@ -60,9 +60,6 @@ Docker | GitHub Actions CICD
 
 **Production FastAPI Fraud Engine** - Week1 Planning + Week2 LIVE API!
 
-**Live Demo**: http://localhost:8000/docs  
-**GitHub**: https://github.com/RESHMA-0727/week2-fastapi-backend
-
 ---
 
 ## 📁 WEEK1 Structure (Planning Phase)
