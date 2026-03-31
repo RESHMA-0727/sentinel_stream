@@ -31,13 +31,13 @@ async def analyze(txn: Transaction):
 from app.tasks import check_transaction_task
 from celery.result import AsyncResult
 from app.celery_app import celery_app
-
 @app.post("/background-check")
-def background_check():
-    task = check_transaction_task.delay(7200, "user_101", "amazon")
+def background_check(txn: Transaction):
+    task = check_transaction_task.delay(txn.amount, txn.user_id, txn.merchant)
     return {
         "message": "Task submitted",
-        "task_id": task.id
+        "task_id": task.id,
+        "input": txn.dict()
     }
 
 @app.get("/task-status/{task_id}")
