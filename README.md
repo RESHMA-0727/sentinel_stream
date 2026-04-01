@@ -1,142 +1,220 @@
-## 📁 **Project Structure**
-# SentinelStream 🚨 Real-Time Fraud Detection
+# Sentinel Stream 🚨
+Real-Time Fraud Detection Engine developed over a 4-week sprint using FastAPI, Redis, Celery, Docker, and testing tools.
 
-**Zaalima Development Q4 Python Elite** – Week 1 COMPLETE ✅
+## Project Overview
+Sentinel Stream is a fraud detection system designed to process transaction data and return risk decisions in real time. The project was built step by step across four weeks, moving from planning and API structure to async processing, Docker setup, testing, and final documentation.
 
-Production-grade engine scoring 1000s transactions/sec with ML + rules. Neo-bank ready!
+## My Contributions
+I worked on the tasks assigned to me and completed the planned deliverables for my part of the project.
 
-## 📁 Project Structure
-app/
-├── sentinel.py → Fraud scoring engine (asyncio)
-├── transactions.py → Transaction generator
-docs/
-├── analytics_wireframe_v1.txt
-├── transactions_wireframe.txt
-├── rules_wireframe.txt
+My contributions included:
+- Redis caching setup and support work
+- Celery/background-check related implementation support
+- Docker setup with Dockerfile and `docker-compose.yml
+- JWT dependency setup for secured flow
+- Pytest files and issue fixing during testing
+- README improvements and GitHub update work
+- Docs and wireframe-related support during earlier stages
 
-docker-compose.yml → Redis backend
-
-
-
-## 🚀Week 1 Deliverables
-- ✅ SRS  defined
-- ✅ PostgreSQL schema (Star schema, 3NF)
-- ✅ 3 Admin wireframes (Transactions/Rules/Analytics)
-- ✅ GitHub repo with CICD ready
-- ✅ FastAPI contract stable
-
-
-
-## 🎯 Core Features
-POST /transaction → <200ms fraud score (0-1.0)
-Redis user cache + idempotency keys
-Rule engine: amount>5000 + !home = RISK
-ML Isolation Forest integration ready
-
-## 🏃‍♂️ Quick Demo
-
- Terminal 1
-python app/transactions.py
-
- Terminal 2  
-python app/sentinel.py
-
-Expected: Transaction 12345 RISK_SCORE=0.87
+## Tech Stack
+- Python
+- FastAPI
+- Pydantic
+- Redis
+- Celery
+- Docker
+- Pytest
+- Locust
 
 
-🛠️ Tech Stack
-FastAPI (ASGI) | PostgreSQL (ACID) | Redis (cache)
-SQLAlchemy Async | Pydantic (validation)
-Docker | GitHub Actions CICD
+## Tech Stack
+- Python
+- FastAPI
+- Pydantic
+- Redis
+- Celery
+- Docker
+- Pytest
+- Locust
 
+## Week-wise Deliverables
 
-📈 Performance Targets
-100 req/sec local (Locust ready)
-<200ms E2E latency
-90%+ test coverage (Week 4)
+### Week 1 — Foundation and Planning
+Main work completed:
+- Set up the GitHub repository and project structure
+- Defined the initial backend direction
+- Prepared architecture and wireframe documents in `docs/
+- Planned API contracts and fraud detection workflow
 
-# 🚀 COMPLETE SentinelStream - Week1 + Week2
-# Zaalima Q4 Python Elite ✅✅
+Deliverables:
+- SRS and planning artifacts
+- Admin/dashboard wireframes
+- Initial FastAPI contract discussion
+- Base project organization
 
-**Production FastAPI Fraud Engine** - Week1 Planning + Week2 LIVE API!
+### Week 2 — Core Backend API
+Main work completed:
+- Built the FastAPI backend for transaction processing
+- Added request validation using Pydantic
+- Implemented rule-based fraud scoring logic
+- Tested the `/transaction workflow locally
+- Performed Locust load testing
 
----
+Deliverables:
+- `POST /transaction
+- Risk scoring engine
+- API docs through FastAPI Swagger
+- Load test result: **26 requests/sec with 0% failure**
 
-## 📁 WEEK1 Structure (Planning Phase)
-
-week1-sentinelstream/
-├── app/
-│   ├── sentinel.py (asyncio scoring)
-│   ├── transactions.py (generator)
-├── docs/
-│   ├── analytics_wireframe_v1.txt
-│   ├── transactions_wireframe.txt
-│   ├── rules_wireframe.txt
-├── docker-compose.yml (Redis)
-
-
-**Week1 Deliverables** ✅
-- SRS + PostgreSQL schema (Star/3NF)
-- 3 Admin wireframes
-- GitHub CICD ready
-- FastAPI contract stable
-
-
-'''
-week2-Structure fastapi-backend/
-├── app/
-│   ├── main.py (FastAPI /transaction)
-│   ├── models.py (Pydantic)
-│   ├── risk_engine.py (₹7500=90 BLOCKED)
-├── requirements.txt
-
-
-  Week2 Deliverables✅
-- FastAPI POST /transaction (<200ms)
-- Risk rules engine
-- Locust 26 req/sec (0% fail)
-- Curl demo + API docs
-
-## 🎯 CORE API (Week2 LIVE)
-**Live**: http://localhost:8000/docs 
-
-**POST /transaction**
+Example output:
 json
-Input: {"amount":7500,"user_id":"vishn","merchant":"Flipkart"}
-**Expected Output**: {"risk_score":90,"status":"BLOCKED"}
+{
+  "risk_score": 90,
+  "status": "BLOCKED"
+}
 
 
-**Quick Demo**:
-# Terminal 1
+### Week 3 — Async Processing and Background Checks
+Main work completed:
+- Added Celery-based background task support
+- Connected Redis as broker/cache layer
+- Implemented background fraud-check workflow
+- Added task status tracking flow
+
+Deliverables:
+- `POST /background-check
+- `GET /task-status/{task_id}
+- Redis-backed asynchronous execution
+- Improved separation between request handling and long-running scoring
+
+### Week 4 — Production Readiness
+Main work completed:
+- Added Dockerfile and `docker-compose.yml
+- Brought up FastAPI/Redis/Celery using Docker
+- Added JWT package support for protected background-check flow
+- Added pytest files and validated test execution
+- Cleaned repository documentation and final Git history
+
+Deliverables:
+- Docker-based local run setup
+- JWT dependencies installed
+- Pytest test files added
+- Final README update
+- Pull request merged
+
+## Final System Built
+At the end of the sprint, the project delivers:
+- A FastAPI backend for transaction risk evaluation
+- Rule-based fraud decision logic
+- Async background-check processing with Celery
+- Redis integration for cache and broker use
+- Dockerized project setup for local execution
+- Basic automated test coverage setup
+- Documented week-wise development progress in GitHub
+
+## Project Structure
+``text
+sentinel_stream/
+├── app/
+├── docs/
+├── tests/
+├── Dockerfile
+├── docker-compose.yml
+├── locustfile.py
+├── requirements.txt
+└── README.md
+
+
+## API Endpoints
+
+### 1. Transaction Check
+`POST /transaction
+
+Purpose:
+- Accept a transaction payload
+- Run fraud/risk logic
+- Return score and decision
+
+### 2. Background Check
+`POST /background-check
+
+Purpose:
+- Submit transaction data for asynchronous processing
+- Return a task id immediately
+
+### 3. Task Status
+`GET /task-status/{task_id}
+
+Purpose:
+- Track whether the background job is pending, successful, or blocked
+
+## How to Run
+
+### Local run
+bash
+pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 
-# Terminal 2  
-curl -s -X POST http://localhost:8000/transaction \
--H "Content-Type: application/json" \
--d '{"amount":7500,"user_id":"vishn","merchant":"Flipkart"}' | jq
-**Expected**: {"risk_score":90,"status":"BLOCKED"}
 
-curl -s -X POST http://localhost:8000/transaction \
--H "Content-Type: application/json" \
--d '{"amount":3000,"user_id":"vishn","merchant":"Amazon"}' | jq
-**Expected**: {"risk_score":35,"status":"APPROVED"}
+### Docker run
+bash
+docker-compose up
 
 
-## 📈 PERFORMANCE (Locust)
-| Metric | Value |
-|--------|-------|
-| **Peak** | 26 req/sec |
-| **Fail** | 0% |
-| **Max** | 200ms |
-
-## 🛠️ Tech Stack
-**FastAPI** | **Pydantic** | **Uvicorn** | **Locust** | **Python 3.12**
-
-## 📋 ROADMAP
-✅ **Week1**: Architecture + SRS  
-✅ **Week2**: FastAPI Core API  
-⏳ **Week3**: ML Isolation Forest + Redis  
-⏳ **Week4**: Docker + JWT + 90% tests
+### API docs
+Open:
+`text
+http://localhost:8000/docs
 
 
+## Testing
+Pytest files were added in Week 4 to support basic validation of the backend flow.
 
+Run:
+`bash
+pytest tests/
+
+
+## Performance
+Week 2 load-testing result:
+- **26 requests/second**
+- **0% failure rate**
+
+This confirmed that the core transaction endpoint was functioning reliably during local testing.
+
+## GitHub Progress
+The repository history reflects incremental development across all four weeks:
+- Week 1: planning and structure
+- Week 2: backend API and risk engine
+- Week 3: Celery and Redis async flow
+- Week 4: Docker, JWT setup, tests, README cleanup
+
+ ## Final Output
+By the end of the sprint, the project includes:
+- Fraud detection API flow
+- Risk scoring logic
+- Redis integration
+- Celery background processing
+- Docker setup for local run
+- Pytest validation setup
+- Updated GitHub history and README
+
+## Today’s Fixes
+Final work completed today included:
+- Fixing test folder/file structure
+- Fixing pytest import issues
+- Adjusting Redis-related test behavior
+- Installing JWT dependencies
+- Updating README for final submission
+- Merging Week 4 work into the repository
+
+## Current Status
+- Week 1 to Week 4 work recorded
+- Redis, Celery, Docker, and testing work completed
+- Final README updated
+- PR merged
+- Repository ready for mentor review
+
+
+## Conclusion
+Sentinel Stream demonstrates a complete backend sprint progression from planning to production-ready setup. The final result is a working fraud detection backend with API endpoints, async task processing, Redis integration, Docker support, and test scaffolding.
