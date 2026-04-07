@@ -1,220 +1,177 @@
-# Sentinel Stream 🚨
-Real-Time Fraud Detection Engine developed over a 4-week sprint using FastAPI, Redis, Celery, Docker, and testing tools.
+# 🚀 Sentinel Stream — Real-Time Fraud Detection System
 
-## Project Overview
-Sentinel Stream is a fraud detection system designed to process transaction data and return risk decisions in real time. The project was built step by step across four weeks, moving from planning and API structure to async processing, Docker setup, testing, and final documentation.
+## 📌 Overview
 
-## My Contributions
-I worked on the tasks assigned to me and completed the planned deliverables for my part of the project.
+Sentinel Stream is a real-time transaction processing system designed to detect fraudulent activities using a hybrid approach that combines rule-based logic and machine learning techniques.
 
-My contributions included:
-- Redis caching setup and support work
-- Celery/background-check related implementation support
-- Docker setup with Dockerfile and `docker-compose.yml
-- JWT dependency setup for secured flow
-- Pytest files and issue fixing during testing
-- README improvements and GitHub update work
-- Docs and wireframe-related support during earlier stages
+The system ensures **high performance, scalability, and reliability** by integrating Redis caching and idempotent request handling.
 
-## Tech Stack
-- Python
-- FastAPI
-- Pydantic
-- Redis
-- Celery
-- Docker
-- Pytest
-- Locust
+---
+
+## ⚡ Key Features
+
+### 🔍 Fraud Detection Engine
+
+* Rule-based risk evaluation (threshold-based logic)
+* ML-based anomaly scoring (simulated model)
+* Hybrid risk scoring system for better accuracy
+
+### ⚡ Performance Optimization
+
+* Redis caching for ultra-fast responses
+* Reduced database load through caching layer
+
+### 🔁 Idempotency Handling
+
+* Prevents duplicate transaction processing
+* Ensures consistent results for repeated requests
+
+### 🗄️ Database Integration
+
+* SQLite with SQLAlchemy ORM
+* Persistent transaction storage
+
+### 🌐 API Layer
+
+* Built with FastAPI
+* Async support for high performance
+* Interactive Swagger UI for testing
+
+---
+
+## 🧠 System Architecture
+
+User Request
+     ↓
+FastAPI API Layer
+     ↓
+Redis (Cache Check ⚡)
+     ↓
+Rule Engine + ML Model
+     ↓
+Database (SQLite)
+     ↓
+Redis (Store Response)
+     ↓
+Final Response
 
 
-## Tech Stack
-- Python
-- FastAPI
-- Pydantic
-- Redis
-- Celery
-- Docker
-- Pytest
-- Locust
+## 🛠️ Tech Stack
 
-## Week-wise Deliverables
+| Layer    | Technology          |
+| -------- | ------------------- |
+| Backend  | FastAPI             |
+| Database | SQLite + SQLAlchemy |
+| Caching  | Redis               |
+| Language | Python              |
+| ML Logic | Simulated ML Model  |
 
-### Week 1 — Foundation and Planning
-Main work completed:
-- Set up the GitHub repository and project structure
-- Defined the initial backend direction
-- Prepared architecture and wireframe documents in `docs/
-- Planned API contracts and fraud detection workflow
+---
 
-Deliverables:
-- SRS and planning artifacts
-- Admin/dashboard wireframes
-- Initial FastAPI contract discussion
-- Base project organization
+## 🚀 Getting Started
 
-### Week 2 — Core Backend API
-Main work completed:
-- Built the FastAPI backend for transaction processing
-- Added request validation using Pydantic
-- Implemented rule-based fraud scoring logic
-- Tested the `/transaction workflow locally
-- Performed Locust load testing
+### 1️⃣ Clone the Repository
 
-Deliverables:
-- `POST /transaction
-- Risk scoring engine
-- API docs through FastAPI Swagger
-- Load test result: **26 requests/sec with 0% failure**
+bash
+git clone https://github.com/RESHMA-0727/sentinel_stream.git
+cd sentinel_stream
 
-Example output:
+
+### 2️⃣ Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3️⃣ Start Redis (Docker)
+
+bash
+docker run -d -p 6379:6379 redis
+
+
+### 4️⃣ Run the Application
+
+bash
+uvicorn app.main:app --reload
+
+
+
+## 📬 API Usage
+
+### 🔹 Endpoint
+
+```
+POST /transactions/
+```
+
+### 🔹 Sample Request
+
 json
 {
-  "risk_score": 90,
-  "status": "BLOCKED"
+  "idempotency_key": "txn-123",
+  "user_id": 1,
+  "amount": 8000
 }
 
 
-### Week 3 — Async Processing and Background Checks
-Main work completed:
-- Added Celery-based background task support
-- Connected Redis as broker/cache layer
-- Implemented background fraud-check workflow
-- Added task status tracking flow
+---
 
-Deliverables:
-- `POST /background-check
-- `GET /task-status/{task_id}
-- Redis-backed asynchronous execution
-- Improved separation between request handling and long-running scoring
+### 🔹 Sample Response
 
-### Week 4 — Production Readiness
-Main work completed:
-- Added Dockerfile and `docker-compose.yml
-- Brought up FastAPI/Redis/Celery using Docker
-- Added JWT package support for protected background-check flow
-- Added pytest files and validated test execution
-- Cleaned repository documentation and final Git history
-
-Deliverables:
-- Docker-based local run setup
-- JWT dependencies installed
-- Pytest test files added
-- Final README update
-- Pull request merged
-
-## Final System Built
-At the end of the sprint, the project delivers:
-- A FastAPI backend for transaction risk evaluation
-- Rule-based fraud decision logic
-- Async background-check processing with Celery
-- Redis integration for cache and broker use
-- Dockerized project setup for local execution
-- Basic automated test coverage setup
-- Documented week-wise development progress in GitHub
-
-## Project Structure
-``text
-sentinel_stream/
-├── app/
-├── docs/
-├── tests/
-├── Dockerfile
-├── docker-compose.yml
-├── locustfile.py
-├── requirements.txt
-└── README.md
+json
+{
+  "status": "declined",
+  "risk_score": 0.72,
+  "transaction_id": 1,
+  "processed_at": "2026-04-07"
+}
 
 
-## API Endpoints
 
-### 1. Transaction Check
-`POST /transaction
+## 🧠 How It Works
 
-Purpose:
-- Accept a transaction payload
-- Run fraud/risk logic
-- Return score and decision
+1. Checks Redis for existing request (idempotency)
+2. If found → returns cached response ⚡
+3. If not:
 
-### 2. Background Check
-`POST /background-check
+   * Applies rule-based risk scoring
+   * Applies ML-based anomaly detection
+   * Combines both scores
+4. Stores result in DB
+5. Caches response in Redis
 
-Purpose:
-- Submit transaction data for asynchronous processing
-- Return a task id immediately
+---
 
-### 3. Task Status
-`GET /task-status/{task_id}
+## 🎯 Key Highlights
 
-Purpose:
-- Track whether the background job is pending, successful, or blocked
+* ✅ Real-time fraud detection system
+* ✅ Hybrid (Rule + ML) scoring model
+* ✅ Redis-based caching for performance
+* ✅ Idempotent API design (production-grade concept)
+* ✅ Clean modular architecture
 
-## How to Run
+---
 
-### Local run
-bash
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+## 📈 Future Enhancements
 
+* Replace simulated ML with real trained model
+* Add Kafka for event streaming
+* Deploy using Docker + Kubernetes
+* Add monitoring (Prometheus/Grafana)
 
-### Docker run
-bash
-docker-compose up
+---
 
+## 👩‍💻 Author
 
-### API docs
-Open:
-`text
-http://localhost:8000/docs
+**RESHMA SRI**
 
+---
 
-## Testing
-Pytest files were added in Week 4 to support basic validation of the backend flow.
+## ⭐ Final Note
 
-Run:
-`bash
-pytest tests/
+This project demonstrates real-world backend engineering concepts including:
 
-
-## Performance
-Week 2 load-testing result:
-- **26 requests/second**
-- **0% failure rate**
-
-This confirmed that the core transaction endpoint was functioning reliably during local testing.
-
-## GitHub Progress
-The repository history reflects incremental development across all four weeks:
-- Week 1: planning and structure
-- Week 2: backend API and risk engine
-- Week 3: Celery and Redis async flow
-- Week 4: Docker, JWT setup, tests, README cleanup
-
- ## Final Output
-By the end of the sprint, the project includes:
-- Fraud detection API flow
-- Risk scoring logic
-- Redis integration
-- Celery background processing
-- Docker setup for local run
-- Pytest validation setup
-- Updated GitHub history and README
-
-## Today’s Fixes
-Final work completed today included:
-- Fixing test folder/file structure
-- Fixing pytest import issues
-- Adjusting Redis-related test behavior
-- Installing JWT dependencies
-- Updating README for final submission
-- Merging Week 4 work into the repository
-
-## Current Status
-- Week 1 to Week 4 work recorded
-- Redis, Celery, Docker, and testing work completed
-- Final README updated
-- PR merged
-- Repository ready for mentor review
-
-
-## Conclusion
-Sentinel Stream demonstrates a complete backend sprint progression from planning to production-ready setup. The final result is a working fraud detection backend with API endpoints, async task processing, Redis integration, Docker support, and test scaffolding.
+* Distributed caching
+* Idempotent APIs
+* Fraud detection systems
+* Scalable service design
