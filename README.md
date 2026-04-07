@@ -41,7 +41,6 @@ The system ensures **high performance, scalability, and reliability** by integra
 
 ## 🧠 System Architecture
 
-```
 User Request
      ↓
 FastAPI API Layer
@@ -55,9 +54,7 @@ Database (SQLite)
 Redis (Store Response)
      ↓
 Final Response
-```
 
----
 
 ## 🛠️ Tech Stack
 
@@ -75,10 +72,10 @@ Final Response
 
 ### 1️⃣ Clone the Repository
 
-```bash
+bash
 git clone https://github.com/RESHMA-0727/sentinel_stream.git
 cd sentinel_stream
-```
+
 
 ### 2️⃣ Install Dependencies
 
@@ -88,17 +85,16 @@ pip install -r requirements.txt
 
 ### 3️⃣ Start Redis (Docker)
 
-```bash
+bash
 docker run -d -p 6379:6379 redis
-```
+
 
 ### 4️⃣ Run the Application
 
-```bash
+bash
 uvicorn app.main:app --reload
-```
 
----
+
 
 ## 📬 API Usage
 
@@ -110,28 +106,27 @@ POST /transactions/
 
 ### 🔹 Sample Request
 
-```json
+json
 {
   "idempotency_key": "txn-123",
   "user_id": 1,
   "amount": 8000
 }
-```
+
 
 ---
 
 ### 🔹 Sample Response
 
-```json
+json
 {
   "status": "declined",
   "risk_score": 0.72,
   "transaction_id": 1,
   "processed_at": "2026-04-07"
 }
-```
 
----
+
 
 ## 🧠 How It Works
 
@@ -168,7 +163,7 @@ POST /transactions/
 
 ## 👩‍💻 Author
 
-**RESHMASRI**
+**RESHMA SRI**
 
 ---
 
