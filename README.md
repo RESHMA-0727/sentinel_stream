@@ -1,145 +1,182 @@
-## 📁 **Project Structure**
-# SentinelStream 🚨 Real-Time Fraud Detection
+# 🚀 Sentinel Stream — Real-Time Fraud Detection System
 
-**Zaalima Development Q4 Python Elite** – Week 1 COMPLETE ✅
+## 📌 Overview
 
-Production-grade engine scoring 1000s transactions/sec with ML + rules. Neo-bank ready!
+Sentinel Stream is a real-time transaction processing system designed to detect fraudulent activities using a hybrid approach that combines rule-based logic and machine learning techniques.
 
-## 📁 Project Structure
-app/
-├── sentinel.py → Fraud scoring engine (asyncio)
-├── transactions.py → Transaction generator
-docs/
-├── analytics_wireframe_v1.txt
-├── transactions_wireframe.txt
-├── rules_wireframe.txt
-
-docker-compose.yml → Redis backend
-
-
-
-## 🚀Week 1 Deliverables
-- ✅ SRS  defined
-- ✅ PostgreSQL schema (Star schema, 3NF)
-- ✅ 3 Admin wireframes (Transactions/Rules/Analytics)
-- ✅ GitHub repo with CICD ready
-- ✅ FastAPI contract stable
-
-
-
-## 🎯 Core Features
-POST /transaction → <200ms fraud score (0-1.0)
-Redis user cache + idempotency keys
-Rule engine: amount>5000 + !home = RISK
-ML Isolation Forest integration ready
-
-## 🏃‍♂️ Quick Demo
-
- Terminal 1
-python app/transactions.py
-
- Terminal 2  
-python app/sentinel.py
-
-Expected: Transaction 12345 RISK_SCORE=0.87
-
-
-🛠️ Tech Stack
-FastAPI (ASGI) | PostgreSQL (ACID) | Redis (cache)
-SQLAlchemy Async | Pydantic (validation)
-Docker | GitHub Actions CICD
-
-
-📈 Performance Targets
-100 req/sec local (Locust ready)
-<200ms E2E latency
-90%+ test coverage (Week 4)
-
-# 🚀 COMPLETE SentinelStream - Week1 + Week2
-# Zaalima Q4 Python Elite ✅✅
-
-**Production FastAPI Fraud Engine** - Week1 Planning + Week2 LIVE API!
-
-**Live Demo**: http://localhost:8000/docs  
-**GitHub**: https://github.com/RESHMA-0727/week2-fastapi-backend
+The system ensures **high performance, scalability, and reliability** by integrating Redis caching and idempotent request handling.
 
 ---
 
-## 📁 WEEK1 Structure (Planning Phase)
+## ⚡ Key Features
 
-week1-sentinelstream/
-├── app/
-│   ├── sentinel.py (asyncio scoring)
-│   ├── transactions.py (generator)
-├── docs/
-│   ├── analytics_wireframe_v1.txt
-│   ├── transactions_wireframe.txt
-│   ├── rules_wireframe.txt
-├── docker-compose.yml (Redis)
+### 🔍 Fraud Detection Engine
 
+* Rule-based risk evaluation (threshold-based logic)
+* ML-based anomaly scoring (simulated model)
+* Hybrid risk scoring system for better accuracy
 
-**Week1 Deliverables** ✅
-- SRS + PostgreSQL schema (Star/3NF)
-- 3 Admin wireframes
-- GitHub CICD ready
-- FastAPI contract stable
+### ⚡ Performance Optimization
 
+* Redis caching for ultra-fast responses
+* Reduced database load through caching layer
 
-'''
-week2-Structure fastapi-backend/
-├── app/
-│   ├── main.py (FastAPI /transaction)
-│   ├── models.py (Pydantic)
-│   ├── risk_engine.py (₹7500=90 BLOCKED)
-├── requirements.txt
+### 🔁 Idempotency Handling
 
+* Prevents duplicate transaction processing
+* Ensures consistent results for repeated requests
 
-  Week2 Deliverables✅
-- FastAPI POST /transaction (<200ms)
-- Risk rules engine
-- Locust 26 req/sec (0% fail)
-- Curl demo + API docs
+### 🗄️ Database Integration
 
-## 🎯 CORE API (Week2 LIVE)
-**Live**: http://localhost:8000/docs 
+* SQLite with SQLAlchemy ORM
+* Persistent transaction storage
 
-**POST /transaction**
-json
-Input: {"amount":7500,"user_id":"vishn","merchant":"Flipkart"}
-**Expected Output**: {"risk_score":90,"status":"BLOCKED"}
+### 🌐 API Layer
 
+* Built with FastAPI
+* Async support for high performance
+* Interactive Swagger UI for testing
 
-**Quick Demo**:
-# Terminal 1
-uvicorn app.main:app --reload --port 8000
+---
 
-# Terminal 2  
-curl -s -X POST http://localhost:8000/transaction \
--H "Content-Type: application/json" \
--d '{"amount":7500,"user_id":"vishn","merchant":"Flipkart"}' | jq
-**Expected**: {"risk_score":90,"status":"BLOCKED"}
+## 🧠 System Architecture
 
-curl -s -X POST http://localhost:8000/transaction \
--H "Content-Type: application/json" \
--d '{"amount":3000,"user_id":"vishn","merchant":"Amazon"}' | jq
-**Expected**: {"risk_score":35,"status":"APPROVED"}
+```
+User Request
+     ↓
+FastAPI API Layer
+     ↓
+Redis (Cache Check ⚡)
+     ↓
+Rule Engine + ML Model
+     ↓
+Database (SQLite)
+     ↓
+Redis (Store Response)
+     ↓
+Final Response
+```
 
-
-## 📈 PERFORMANCE (Locust)
-| Metric | Value |
-|--------|-------|
-| **Peak** | 26 req/sec |
-| **Fail** | 0% |
-| **Max** | 200ms |
+---
 
 ## 🛠️ Tech Stack
-**FastAPI** | **Pydantic** | **Uvicorn** | **Locust** | **Python 3.12**
 
-## 📋 ROADMAP
-✅ **Week1**: Architecture + SRS  
-✅ **Week2**: FastAPI Core API  
-⏳ **Week3**: ML Isolation Forest + Redis  
-⏳ **Week4**: Docker + JWT + 90% tests
+| Layer    | Technology          |
+| -------- | ------------------- |
+| Backend  | FastAPI             |
+| Database | SQLite + SQLAlchemy |
+| Caching  | Redis               |
+| Language | Python              |
+| ML Logic | Simulated ML Model  |
 
+---
 
+## 🚀 Getting Started
 
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/RESHMA-0727/sentinel_stream.git
+cd sentinel_stream
+```
+
+### 2️⃣ Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3️⃣ Start Redis (Docker)
+
+```bash
+docker run -d -p 6379:6379 redis
+```
+
+### 4️⃣ Run the Application
+
+```bash
+uvicorn app.main:app --reload
+```
+
+---
+
+## 📬 API Usage
+
+### 🔹 Endpoint
+
+```
+POST /transactions/
+```
+
+### 🔹 Sample Request
+
+```json
+{
+  "idempotency_key": "txn-123",
+  "user_id": 1,
+  "amount": 8000
+}
+```
+
+---
+
+### 🔹 Sample Response
+
+```json
+{
+  "status": "declined",
+  "risk_score": 0.72,
+  "transaction_id": 1,
+  "processed_at": "2026-04-07"
+}
+```
+
+---
+
+## 🧠 How It Works
+
+1. Checks Redis for existing request (idempotency)
+2. If found → returns cached response ⚡
+3. If not:
+
+   * Applies rule-based risk scoring
+   * Applies ML-based anomaly detection
+   * Combines both scores
+4. Stores result in DB
+5. Caches response in Redis
+
+---
+
+## 🎯 Key Highlights
+
+* ✅ Real-time fraud detection system
+* ✅ Hybrid (Rule + ML) scoring model
+* ✅ Redis-based caching for performance
+* ✅ Idempotent API design (production-grade concept)
+* ✅ Clean modular architecture
+
+---
+
+## 📈 Future Enhancements
+
+* Replace simulated ML with real trained model
+* Add Kafka for event streaming
+* Deploy using Docker + Kubernetes
+* Add monitoring (Prometheus/Grafana)
+
+---
+
+## 👩‍💻 Author
+
+**RESHMASRI**
+
+---
+
+## ⭐ Final Note
+
+This project demonstrates real-world backend engineering concepts including:
+
+* Distributed caching
+* Idempotent APIs
+* Fraud detection systems
+* Scalable service design
