@@ -215,6 +215,9 @@ Final work completed today included:
 - PR merged
 - Repository ready for mentor review
 
+  ## Demo
+Swagger UI available at http://127.0.0.1:8000/docs
+
 
 ## Conclusion
 Sentinel Stream demonstrates a complete backend sprint progression from planning to production-ready setup. The final result is a working fraud detection backend with API endpoints, async task processing, Redis integration, Docker support, and test scaffolding.
