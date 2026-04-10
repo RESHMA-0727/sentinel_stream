@@ -152,6 +152,15 @@ json
 
 ---
 
+## 🚀 Advanced Fraud Detection Features
+
+- 🌍 Location-based risk detection (flags unusual countries)
+- 🌙 Time-based anomaly detection (midnight transactions)
+- 🔁 Frequency analysis using Redis (multiple rapid transactions)
+- 🤖 Hybrid scoring using Rule-based + ML-based approach
+
+---
+
 ## 📈 Future Enhancements
 
 * Replace simulated ML with real trained model
