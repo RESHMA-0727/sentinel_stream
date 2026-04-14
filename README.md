@@ -81,29 +81,19 @@ Checks Redis for duplicate requests (idempotency)
 
 Applies rule-based + ML scoring
 
-
 Evaluates contextual signals:
-
 
 Location
 
-
 Time
-
 
 Transaction frequency
 
-
-
-
 Generates explanation (reasons)
-
 
 Assigns risk level
 
-
 Flags suspicious users
-
 
 Stores result in DB and Redis
 
@@ -153,17 +143,12 @@ Reshma Sri
 ⭐ Final Note
 This project demonstrates real-world backend engineering concepts including:
 
-
 Fraud detection systems
-
 
 Distributed caching
 
-
 Idempotent APIs
 
-
 Explainable AI
-
 
 Scalable service design
