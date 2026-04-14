@@ -84,7 +84,7 @@ async def create_transaction(
             status = "approved"
             risk_level = "LOW"
 
-        # 🚨 DEMO-FRIENDLY USER FLAG (INSTANT)
+        # 🚨 DEMO-FRIENDLY USER FLAG Feature (INSTANT)
         user_flag = "NORMAL"
         try:
             if risk_score > 0.7:
