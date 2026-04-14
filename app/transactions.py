@@ -11,12 +11,12 @@ from app.ml_model import predict_risk_ml
 
 router = APIRouter(prefix="/transactions", tags=["transactions"])
 
-# ✅ SAFE INPUT MODEL (location optional)
+# ✅ INPUT MODEL
 class TransactionCreate(BaseModel):
     idempotency_key: str
     user_id: int
     amount: float
-    location: str = "India"   # ✅ default prevents crash
+    location: str = "India"
 
 # ✅ RULE ENGINE
 def calculate_risk(amount: float) -> float:
@@ -27,63 +27,73 @@ def calculate_risk(amount: float) -> float:
     else:
         return 0.1
 
-# ✅ MAIN API
 @router.post("/")
 async def create_transaction(
     payload: TransactionCreate,
     db: AsyncSession = Depends(get_db)
 ):
     try:
-        print("🔥 Processing transaction")
+        reasons = []
 
-        # 🔁 REDIS CHECK
+        # 🔁 IDEMPOTENCY CHECK
         existing = await redis_client.get(payload.idempotency_key)
         if existing:
-            print("⚡ Returning cached response")
             return json.loads(existing)
 
         # 🔢 RULE + ML
         rule_score = calculate_risk(payload.amount)
         ml_score = predict_risk_ml(payload.amount)
-
         risk_score = (rule_score + ml_score) / 2
 
-        # 🌍 LOCATION CHECK (SAFE)
-        location = payload.location.lower() if payload.location else "india"
-        if location != "india":
-            print("🌍 Suspicious location")
+        # 💰 AMOUNT CHECK
+        if payload.amount > 5000:
+            reasons.append("High transaction amount")
+
+        # 🌍 LOCATION CHECK
+        if payload.location.lower() != "india":
             risk_score += 0.2
+            reasons.append("Unusual location")
 
         # 🌙 TIME CHECK
         current_hour = datetime.now().hour
         if 0 <= current_hour <= 5:
-            print("🌙 Suspicious time")
             risk_score += 0.2
+            reasons.append("Transaction at unusual time")
 
-        # 🔁 FREQUENCY CHECK (SAFE)
+        # 🔁 FREQUENCY CHECK
         try:
             user_key = f"user:{payload.user_id}:count"
             count = await redis_client.incr(user_key)
             if count > 5:
-                print("⚠️ Too many transactions")
                 risk_score += 0.3
-        except Exception:
-            print("Redis incr failed, skipping frequency check")
+                reasons.append("Too many transactions in short time")
+        except:
+            pass
 
         # 🎯 FINAL SCORE
         risk_score = round(min(risk_score, 1.0), 2)
 
-        # ✅ DECISION
+        # 📊 DECISION + RISK LEVEL
         if risk_score > 0.8:
             status = "blocked"
+            risk_level = "HIGH"
         elif risk_score > 0.6:
             status = "declined"
+            risk_level = "MEDIUM"
         else:
             status = "approved"
+            risk_level = "LOW"
 
-        print("FINAL:", risk_score, status)
+        # 🚨 DEMO-FRIENDLY USER FLAG (INSTANT)
+        user_flag = "NORMAL"
+        try:
+            if risk_score > 0.7:
+                await redis_client.incr(f"user:{payload.user_id}:risk")
+                user_flag = "SUSPICIOUS"
+        except:
+            pass
 
-        # 💾 SAVE DB
+        # 💾 SAVE TO DB
         tx = Transaction(
             user_id=payload.user_id,
             amount=payload.amount,
@@ -98,15 +108,17 @@ async def create_transaction(
         response = {
             "status": tx.status,
             "risk_score": tx.risk_score,
+            "risk_level": risk_level,
+            "reason": reasons,
+            "user_flag": user_flag,
             "transaction_id": tx.id,
             "processed_at": str(tx.created_at)
         }
 
-        # ⚡ STORE REDIS
+        # ⚡ CACHE RESPONSE
         await redis_client.set(payload.idempotency_key, json.dumps(response))
 
         return response
 
     except Exception as e:
-        print("ERROR:", str(e))
         return {"error": str(e)}
